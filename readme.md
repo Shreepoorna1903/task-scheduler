@@ -155,7 +155,7 @@ curl "http://localhost:8080/api/v1/tasks?status=COMPLETED"
 - **Processing Time**: ~2 seconds per task
 - **Throughput**: Scales with number of Kafka consumer workers
 
-## 💼 Use Cases (HubSpot-Style Workflows)
+## 💼 Use Cases 
 
 ### Marketing Hub
 - **Bulk Email Campaigns**: Send to 100,000+ contacts asynchronously
