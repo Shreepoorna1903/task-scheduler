@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-scheduler-worker
+  labels:
+    app: task-scheduler
+    component: worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: task-scheduler
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: task-scheduler
+        component: worker
+    spec:
+      containers:
+      - name: worker
+        image: task-scheduler:latest
+        imagePullPolicy: Never
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx512m"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: task-scheduler-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: task-scheduler-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
