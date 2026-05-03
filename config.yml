@@ -1,0 +1,28 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/taskscheduler?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+  user: root
+  password: password
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: true
+
+logging:
+  level: INFO
+  loggers:
+    com.shreepoorna: DEBUG
+
+redisHost: localhost
+redisPort: 6379
